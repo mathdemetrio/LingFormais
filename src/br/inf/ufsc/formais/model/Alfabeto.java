@@ -5,6 +5,7 @@
  */
 package br.inf.ufsc.formais.model;
 
+import br.inf.ufsc.formais.model.automato.Estado;
 import java.util.Set;
 
 /**
@@ -25,4 +26,18 @@ public class Alfabeto {
     public void setSimbolos(Set<Simbolo> simbolos) {
         this.simbolos = simbolos;
     }
+
+    @Override
+    public String toString() {
+         StringBuilder out = new StringBuilder("A = (");
+
+        for (Simbolo simb : simbolos) {
+            out.append(simb.getReferencia()).append(", ");
+        }
+        out.delete(out.length() - 3, out.length() - 1);
+        out.append("}\n");
+        
+        return out.toString();
+    }
+    
 }

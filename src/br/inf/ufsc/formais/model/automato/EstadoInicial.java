@@ -12,12 +12,12 @@ package br.inf.ufsc.formais.model.automato;
 public class EstadoInicial extends Estado {
 
     public EstadoInicial(String id) {
-        super("-> " + id);
+        super("->" + id);
     }
 
     @Override
     public void setId(String id) {
-        super.setId("-> " + id);
+        super.setId("->" + id);
     }
 
 }

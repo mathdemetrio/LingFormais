@@ -23,6 +23,9 @@ public class Transicao {
         this.proximoEstado = proximoEstado;
     }
 
+    public Transicao() {
+    }
+
     public Estado getEstadoAtual() {
         return estadoAtual;
     }
@@ -47,4 +50,8 @@ public class Transicao {
         this.proximoEstado = proximoEstado;
     }
 
+    @Override
+    public String toString() {
+        return "T(" + estadoAtual.getId() + ", " + simboloEntrada.getReferencia() + ") -> " + proximoEstado.getId();
+    }
 }

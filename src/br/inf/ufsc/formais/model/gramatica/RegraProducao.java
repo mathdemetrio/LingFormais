@@ -5,9 +5,6 @@
  */
 package br.inf.ufsc.formais.model.gramatica;
 
-import br.inf.ufsc.formais.model.Simbolo;
-import java.util.Set;
-
 /**
  *
  * @author Diego
@@ -15,11 +12,14 @@ import java.util.Set;
 public class RegraProducao {
 
     private SimboloNaoTerminal simboloProducao;
-    private Set<Simbolo> simbolosProduzidos;
+    private Cadeia cadeiaProduzida;
 
-    public RegraProducao(SimboloNaoTerminal simboloProducao, Set<Simbolo> simbolosProduzidos) {
+    public RegraProducao(SimboloNaoTerminal simboloProducao, Cadeia cadeiaProduzida) {
         this.simboloProducao = simboloProducao;
-        this.simbolosProduzidos = simbolosProduzidos;
+        this.cadeiaProduzida = cadeiaProduzida;
+    }
+
+    public RegraProducao() {
     }
 
     public SimboloNaoTerminal getSimboloProducao() {
@@ -30,12 +30,16 @@ public class RegraProducao {
         this.simboloProducao = simboloProducao;
     }
 
-    public Set<Simbolo> getSimbolosProduzidos() {
-        return simbolosProduzidos;
+    public Cadeia getCadeiaProduzida() {
+        return cadeiaProduzida;
     }
 
-    public void setSimbolosProduzidos(Set<Simbolo> simbolosProduzidos) {
-        this.simbolosProduzidos = simbolosProduzidos;
+    public void setCadeiaProduzida(Cadeia cadeiaProduzida) {
+        this.cadeiaProduzida = cadeiaProduzida;
     }
 
+    @Override
+    public String toString() {
+        return simboloProducao.getReferencia() + " -> " + cadeiaProduzida.toString();
+    }
 }
