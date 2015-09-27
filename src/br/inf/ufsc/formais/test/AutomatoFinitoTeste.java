@@ -7,7 +7,7 @@ package br.inf.ufsc.formais.test;
 
 import br.inf.ufsc.formais.model.Alfabeto;
 import br.inf.ufsc.formais.model.Simbolo;
-import br.inf.ufsc.formais.model.automato.AutomatoFinito;
+import br.inf.ufsc.formais.model.automato.AutomatoFinitoDeterministico;
 import br.inf.ufsc.formais.model.automato.Estado;
 import br.inf.ufsc.formais.model.automato.EstadoFinal;
 import br.inf.ufsc.formais.model.automato.EstadoInicial;
@@ -62,7 +62,7 @@ public class AutomatoFinitoTeste {
         transicoes.add(t5);
         transicoes.add(t6);
         
-        AutomatoFinito dfa = new AutomatoFinito(estados, alfa, transicoes, q0, finais);
+        AutomatoFinitoDeterministico dfa = new AutomatoFinitoDeterministico(estados, alfa, transicoes, q0, finais);
         
         System.out.println(dfa.toString());
         

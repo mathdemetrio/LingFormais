@@ -6,11 +6,6 @@
 package br.inf.ufsc.formais.model.automato;
 
 import br.inf.ufsc.formais.model.Alfabeto;
-import br.inf.ufsc.formais.model.gramatica.Gramatica;
-import br.inf.ufsc.formais.model.gramatica.RegraProducao;
-import br.inf.ufsc.formais.model.gramatica.SimboloNaoTerminal;
-import br.inf.ufsc.formais.model.gramatica.SimboloTerminal;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -19,16 +14,14 @@ import java.util.Set;
  */
 public class AutomatoFinito {
 
-    private Set<Estado> estados;
-    private Alfabeto alfabeto;
-    private Set<Transicao> transicoes;
-    private EstadoInicial estadoInicial;
-    private Set<EstadoFinal> estadosAceitacao;
+    protected Set<Estado> estados;
+    protected Alfabeto alfabeto;
+    protected EstadoInicial estadoInicial;
+    protected Set<EstadoFinal> estadosAceitacao;
 
-    public AutomatoFinito(Set<Estado> estados, Alfabeto alfabeto, Set<Transicao> transicoes, EstadoInicial estadoInicial, Set<EstadoFinal> estadosAceitacao) {
+    public AutomatoFinito(Set<Estado> estados, Alfabeto alfabeto, EstadoInicial estadoInicial, Set<EstadoFinal> estadosAceitacao) {
         this.estados = estados;
         this.alfabeto = alfabeto;
-        this.transicoes = transicoes;
         this.estadoInicial = estadoInicial;
         this.estadosAceitacao = estadosAceitacao;
     }
@@ -49,14 +42,6 @@ public class AutomatoFinito {
         this.alfabeto = alfabeto;
     }
 
-    public Set<Transicao> getTransicoes() {
-        return transicoes;
-    }
-
-    public void setTransicoes(Set<Transicao> transicoes) {
-        this.transicoes = transicoes;
-    }
-
     public EstadoInicial getEstadoInicial() {
         return estadoInicial;
     }
@@ -71,80 +56,5 @@ public class AutomatoFinito {
 
     public void setEstadosAceitacao(Set<EstadoFinal> estadosAceitacao) {
         this.estadosAceitacao = estadosAceitacao;
-    }
-
-    public Gramatica toGramatica() {
-        SimboloNaoTerminal simboloInicial = new SimboloNaoTerminal(estadoInicial.getId());
-        Set<SimboloNaoTerminal> naoTerminais = new LinkedHashSet<>();
-        Set<SimboloTerminal> terminais = new LinkedHashSet<>();
-        Set<RegraProducao> regras = new LinkedHashSet<>();
-
-        for (Estado estado : estados) {
-            if (estado instanceof EstadoFinal) {
-                SimboloTerminal term = new SimboloTerminal(estado.getId());
-                terminais.add(term);
-            } else {
-                SimboloNaoTerminal nterm = new SimboloNaoTerminal(estado.getId());
-                naoTerminais.add(nterm);
-            }
-        }
-
-        for (Transicao transicao : transicoes) {
-            RegraProducao regra = new RegraProducao();
-            SimboloNaoTerminal producao = new SimboloNaoTerminal(transicao.getEstadoAtual().getId());
-            regra.setSimboloProducao(producao);
-
-            SimboloTerminal term = new SimboloTerminal(transicao.getSimboloEntrada().getReferencia());
-            regra.getCadeiaProduzida().setSimboloTerminal(term);
-
-            if (transicao.getProximoEstado() != null
-                    && !transicao.getProximoEstado().equals(transicao.getEstadoAtual())) {
-                SimboloNaoTerminal prox = new SimboloNaoTerminal(transicao.getProximoEstado().getId());
-                regra.getCadeiaProduzida().setSimboloNaoTerminal(prox);
-            } else if (transicao.getProximoEstado() != null && 
-                    transicao.getProximoEstado().equals(transicao.getEstadoAtual())) {
-                RegraProducao loop = new RegraProducao();
-                loop.setSimboloProducao(producao);
-                loop.getCadeiaProduzida().setSimboloTerminal(term);
-                loop.getCadeiaProduzida().setSimboloNaoTerminal(
-                        new SimboloNaoTerminal(transicao.getProximoEstado().getId()));
-                regras.add(loop);
-            }
-
-            regras.add(regra);
-        }
-
-        return new Gramatica(naoTerminais, terminais, regras, simboloInicial);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder out = new StringBuilder("M = (E,A,T,I,F)\n");
-
-        out.append("E = {");
-        for (Estado estado : estados) {
-            out.append(estado.getId()).append(", ");
-        }
-        out.delete(out.length() - 2, out.length());
-        out.append("}\n");
-
-        out.append(alfabeto.toString()).append("\n");
-
-        for (Transicao trans : transicoes) {
-            out.append(trans.toString()).append("\n");
-        }
-
-        out.append("\n");
-
-        out.append("I = ").append(estadoInicial.getId()).append("\n");
-
-        out.append("F = {");
-        for (EstadoFinal estAceita : estadosAceitacao) {
-            out.append(estAceita.getId()).append(", ");
-        }
-        out.delete(out.length() - 2, out.length());
-        out.append("}\n");
-
-        return out.toString();
     }
 }

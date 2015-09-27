@@ -5,7 +5,7 @@
  */
 package br.inf.ufsc.formais.test;
 
-import br.inf.ufsc.formais.model.automato.AutomatoFinito;
+import br.inf.ufsc.formais.model.automato.AutomatoFinitoDeterministico;
 import br.inf.ufsc.formais.model.gramatica.Cadeia;
 import br.inf.ufsc.formais.model.gramatica.Gramatica;
 import br.inf.ufsc.formais.model.gramatica.RegraProducao;
@@ -60,7 +60,7 @@ public class GramaticaTeste {
         
         System.out.println(gr.toString());
         
-        AutomatoFinito fsa = gr.toAutomatoFinito();
+        AutomatoFinitoDeterministico fsa = gr.toAutomatoFinito();
         
         System.out.println(fsa.toString());
     }

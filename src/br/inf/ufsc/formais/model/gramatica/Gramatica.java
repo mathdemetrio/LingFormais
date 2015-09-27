@@ -7,7 +7,7 @@ package br.inf.ufsc.formais.model.gramatica;
 
 import br.inf.ufsc.formais.model.Alfabeto;
 import br.inf.ufsc.formais.model.Simbolo;
-import br.inf.ufsc.formais.model.automato.AutomatoFinito;
+import br.inf.ufsc.formais.model.automato.AutomatoFinitoDeterministico;
 import br.inf.ufsc.formais.model.automato.Estado;
 import br.inf.ufsc.formais.model.automato.EstadoFinal;
 import br.inf.ufsc.formais.model.automato.EstadoInicial;
@@ -65,7 +65,7 @@ public class Gramatica {
         this.simboloInicial = simboloInicial;
     }
 
-    public AutomatoFinito toAutomatoFinito() {
+    public AutomatoFinitoDeterministico toAutomatoFinito() {
         Set<Simbolo> simbAlfa = new LinkedHashSet<>();
         simbAlfa.addAll(simbolosTerminais);
         Alfabeto alfa = new Alfabeto(simbAlfa);
@@ -103,7 +103,7 @@ public class Gramatica {
             transicoes.add(transicao);
         }
 
-        return new AutomatoFinito(estados, alfa, transicoes, estadoInicial, finais);
+        return new AutomatoFinitoDeterministico(estados, alfa, transicoes, estadoInicial, finais);
 
     }
 
