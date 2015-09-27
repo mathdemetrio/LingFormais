@@ -10,6 +10,8 @@ package br.inf.ufsc.formais.model;
  * @author Diego
  */
 public class Simbolo {
+    public static final Simbolo EPSILON = new Simbolo("ε");
+            
     private String referencia;
 
     public Simbolo(String referencia) {

@@ -13,14 +13,14 @@ import br.inf.ufsc.formais.model.Simbolo;
  */
 public class Transicao {
 
-    private Estado estadoAtual;
-    private Simbolo simboloEntrada;
-    private Estado proximoEstado;
+    protected Estado estadoAtual;
+    protected Estado proximoEstado;
+    protected Simbolo simboloEntrada;
 
     public Transicao(Estado estadoAtual, Simbolo simboloEntrada, Estado proximoEstado) {
         this.estadoAtual = estadoAtual;
-        this.simboloEntrada = simboloEntrada;
         this.proximoEstado = proximoEstado;
+        this.simboloEntrada = simboloEntrada;
     }
 
     public Transicao() {
@@ -34,20 +34,20 @@ public class Transicao {
         this.estadoAtual = estadoAtual;
     }
 
-    public Simbolo getSimboloEntrada() {
-        return simboloEntrada;
-    }
-
-    public void setSimboloEntrada(Simbolo simboloEntrada) {
-        this.simboloEntrada = simboloEntrada;
-    }
-
     public Estado getProximoEstado() {
         return proximoEstado;
     }
 
     public void setProximoEstado(Estado proximoEstado) {
         this.proximoEstado = proximoEstado;
+    }
+
+    public Simbolo getSimboloEntrada() {
+        return simboloEntrada;
+    }
+
+    public void setSimboloEntrada(Simbolo simboloEntrada) {
+        this.simboloEntrada = simboloEntrada;
     }
 
     @Override

@@ -95,6 +95,10 @@ public class Gramatica {
             } else {
                 prox = new Estado(regra.getCadeiaProduzida().getSimboloNaoTerminal().getReferencia());
             }
+            
+            transicao.setEstadoAtual(atual);
+            transicao.setProximoEstado(prox);
+            transicao.setSimboloEntrada(entrada);
 
             transicoes.add(transicao);
         }
@@ -108,7 +112,7 @@ public class Gramatica {
         StringBuilder out = new StringBuilder();
         
         for (RegraProducao regra : regrasDeProducao) {
-            out.append(regra.toString() + "\n");
+            out.append(regra.toString()).append("\n");
         }
         
         return out.toString();

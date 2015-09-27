@@ -34,7 +34,7 @@ public class Alfabeto {
         for (Simbolo simb : simbolos) {
             out.append(simb.getReferencia()).append(", ");
         }
-        out.delete(out.length() - 3, out.length() - 1);
+        out.delete(out.length() - 2, out.length());
         out.append("}\n");
         
         return out.toString();
