@@ -20,7 +20,6 @@ public class RegraProducao {
     }
 
     public RegraProducao() {
-        this.cadeiaProduzida = new Cadeia(null);
     }
 
     public SimboloNaoTerminal getSimboloProducao() {

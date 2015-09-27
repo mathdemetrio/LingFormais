@@ -12,7 +12,11 @@ import br.inf.ufsc.formais.model.automato.Estado;
 import br.inf.ufsc.formais.model.automato.EstadoFinal;
 import br.inf.ufsc.formais.model.automato.EstadoInicial;
 import br.inf.ufsc.formais.model.automato.Transicao;
+import br.inf.ufsc.formais.model.gramatica.Cadeia;
 import br.inf.ufsc.formais.model.gramatica.Gramatica;
+import br.inf.ufsc.formais.model.gramatica.RegraProducao;
+import br.inf.ufsc.formais.model.gramatica.SimboloNaoTerminal;
+import br.inf.ufsc.formais.model.gramatica.SimboloTerminal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -65,9 +69,5 @@ public class AutomatoFinitoTeste {
         AutomatoFinito dfa = new AutomatoFinito(estados, alfa, transicoes, q0, finais);
         
         System.out.println(dfa.toString());
-        
-        Gramatica gr = dfa.toGramatica();
-        
-        System.out.println(gr.toString());
     }
 }

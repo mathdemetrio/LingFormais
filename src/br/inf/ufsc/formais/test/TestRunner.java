@@ -13,10 +13,8 @@ public class TestRunner {
     public static void main(String[] args) {
         GramaticaTeste gT = new GramaticaTeste();
         AutomatoFinitoTeste dfaT = new AutomatoFinitoTeste();
-        ExpressaoRegularTeste erT = new ExpressaoRegularTeste();
         
         gT.runTest();
         dfaT.runTest();
-        erT.runTest();
     }
 }
