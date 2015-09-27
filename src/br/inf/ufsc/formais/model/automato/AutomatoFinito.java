@@ -94,14 +94,23 @@ public class AutomatoFinito {
             SimboloNaoTerminal producao = new SimboloNaoTerminal(transicao.getEstadoAtual().getId());
             regra.setSimboloProducao(producao);
 
-            SimboloTerminal term = (SimboloTerminal) transicao.getSimboloEntrada();
+            SimboloTerminal term = new SimboloTerminal(transicao.getSimboloEntrada().getReferencia());
             regra.getCadeiaProduzida().setSimboloTerminal(term);
-            
-            if(!(transicao.getProximoEstado() instanceof EstadoFinal)) {
+
+            if (transicao.getProximoEstado() != null
+                    && !transicao.getProximoEstado().equals(transicao.getEstadoAtual())) {
                 SimboloNaoTerminal prox = new SimboloNaoTerminal(transicao.getProximoEstado().getId());
                 regra.getCadeiaProduzida().setSimboloNaoTerminal(prox);
+            } else if (transicao.getProximoEstado() != null && 
+                    transicao.getProximoEstado().equals(transicao.getEstadoAtual())) {
+                RegraProducao loop = new RegraProducao();
+                loop.setSimboloProducao(producao);
+                loop.getCadeiaProduzida().setSimboloTerminal(term);
+                loop.getCadeiaProduzida().setSimboloNaoTerminal(
+                        new SimboloNaoTerminal(transicao.getProximoEstado().getId()));
+                regras.add(loop);
             }
-            
+
             regras.add(regra);
         }
 
@@ -111,29 +120,31 @@ public class AutomatoFinito {
     @Override
     public String toString() {
         StringBuilder out = new StringBuilder("M = (E,A,T,I,F)\n");
-        
+
         out.append("E = {");
         for (Estado estado : estados) {
             out.append(estado.getId()).append(", ");
         }
-        out.delete(out.length() - 3, out.length() - 1);
+        out.delete(out.length() - 2, out.length());
         out.append("}\n");
-        
+
         out.append(alfabeto.toString()).append("\n");
-        
+
         for (Transicao trans : transicoes) {
             out.append(trans.toString()).append("\n");
         }
-        
+
+        out.append("\n");
+
         out.append("I = ").append(estadoInicial.getId()).append("\n");
-        
+
         out.append("F = {");
-        for(EstadoFinal estAceita : estadosAceitacao) {
+        for (EstadoFinal estAceita : estadosAceitacao) {
             out.append(estAceita.getId()).append(", ");
         }
-        out.delete(out.length() - 3, out.length() - 1);
+        out.delete(out.length() - 2, out.length());
         out.append("}\n");
-        
+
         return out.toString();
     }
 }
