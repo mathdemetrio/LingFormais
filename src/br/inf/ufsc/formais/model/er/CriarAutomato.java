@@ -66,6 +66,7 @@ public class CriarAutomato {
         //FALTA MUDAR ESTADOS INICIAIS ANTIGOS PARA ESTADOS NORMAIS
         
         //Junção de estados
+        //precisamos alterar o id dos estados que possivelmente serão iguais
         Set<Estado> estados = new LinkedHashSet<>();
         estados.addAll(af1.getEstados());
         estados.addAll(af2.getEstados());
@@ -96,8 +97,39 @@ public class CriarAutomato {
     }
 
     public AutomatoFinito ConcatenaAFs(AutomatoFinito af1, AutomatoFinito af2) {
-        //Não Implementado
-        return null;
+        Set<Transicao> transicoes = new LinkedHashSet<>();
+        //Cria uma trasição de cada estado final de af1 para o estado inicial de af2
+        for(EstadoFinal e : af1.getEstadosAceitacao()){
+            transicoes.add(new EpsilonTransicao(e, af2.getEstadoInicial()));
+        }
+        //FALTA MUDAR ESTADOS FINAIS DE AF1 E INICIAL DE AF2 PARA ESTADOS NORMAIS
+        
+        //Junção de estados
+        //precisamos alterar o id dos estados que possivelmente serão iguais
+        Set<Estado> estados = new LinkedHashSet<>();
+        estados.addAll(af1.getEstados());
+        estados.addAll(af2.getEstados());
+        
+        //Estados finais
+        Set<EstadoFinal> estadosAceitacao = new LinkedHashSet<>();
+        estadosAceitacao.addAll(af2.getEstadosAceitacao());
+        
+        //Junção de Alfabeto
+        Set<Simbolo> simbolos = new LinkedHashSet<>();
+        simbolos.addAll(af1.getAlfabeto().getSimbolos());
+        simbolos.addAll(af2.getAlfabeto().getSimbolos());
+        Alfabeto alfa = new Alfabeto(simbolos);
+        
+        //Junção de transições
+        
+        transicoes.addAll(af1.getTransicoes());
+        transicoes.addAll(af2.getTransicoes());
+        
+        AutomatoFinito afnd = new AutomatoFinito(estados, alfa,
+            transicoes, af1.getEstadoInicial(),
+            estadosAceitacao);
+        
+        return afnd;
     }
 
     public AutomatoFinito AFLingVazia() {
