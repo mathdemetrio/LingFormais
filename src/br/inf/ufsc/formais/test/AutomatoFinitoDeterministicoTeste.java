@@ -20,7 +20,7 @@ import java.util.Set;
  *
  * @author Diego
  */
-public class AutomatoFinitoTeste {
+public class AutomatoFinitoDeterministicoTeste {
 
     public void runTest() {
         Set<Estado> estados = new LinkedHashSet<>();
@@ -69,5 +69,9 @@ public class AutomatoFinitoTeste {
         Gramatica gr = dfa.toGramatica();
         
         System.out.println(gr.toString());
+        
+        dfa.generalizar();
+        
+        System.out.println(dfa.toString());
     }
 }

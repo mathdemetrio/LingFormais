@@ -6,6 +6,8 @@
 package br.inf.ufsc.formais.model.automato;
 
 import br.inf.ufsc.formais.model.Alfabeto;
+import br.inf.ufsc.formais.model.er.ExpressaoRegular;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -14,21 +16,38 @@ import java.util.Set;
  */
 public class AutomatoFinitoNaoDeterministico extends AutomatoFinito {
 
-    private Set<TransicaoNaoDeterministica> transicoes;
-
-    public AutomatoFinitoNaoDeterministico(Set<TransicaoNaoDeterministica> transicoes,
-            Set<Estado> estados, Alfabeto alfabeto, EstadoInicial estadoInicial,
+    public AutomatoFinitoNaoDeterministico(Set<Estado> estados, Alfabeto alfabeto,
+            Set<TransicaoNaoDeterministica> transicoes, EstadoInicial estadoInicial,
             Set<EstadoFinal> estadosAceitacao) {
-        super(estados, alfabeto, estadoInicial, estadosAceitacao);
-        this.transicoes = transicoes;
+        super(estados, alfabeto, transicoes, estadoInicial, estadosAceitacao);
     }
 
-    public Set<TransicaoNaoDeterministica> getTransicoes() {
-        return transicoes;
-    }
+    public ExpressaoRegular toER() {
+        if (!isGeneralizado()) {
+            generalizar();
+        }
 
-    public void setTransicoes(Set<TransicaoNaoDeterministica> transicoes) {
-        this.transicoes = transicoes;
+        ExpressaoRegular er = new ExpressaoRegular();
+        Estado[] kEstados = estados.toArray(new Estado[estados.size()]);
+        int i = 0;
+        while (kEstados.length > 2) {
+            Estado atual = kEstados[i];
+            if (!atual.equals(estadoInicial) && atual.equals(getEstadoFinal())) {
+                Set<Transicao> trans = new LinkedHashSet<>();
+                for (Transicao tran : transicoes) {
+                    if (tran.getEstadoAtual().equals(atual) || tran.getProximoEstado().equals(atual)) {
+                        trans.add(tran);
+                    }
+                }
+                
+                for (Transicao tran : trans) {
+                    // HERE THE MAGIC IS DONE!!!
+                    // Implementar o triângulo do amor
+                }
+            }
+        }
+
+        return er;
     }
 
 }
