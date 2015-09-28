@@ -26,10 +26,10 @@ public class CriarAutomato {
         Set<Estado> estados = new LinkedHashSet<>();
         estados.add(einicial);
         estados.add(efinal);
-        
+
         Set<Estado> proxEstados = new LinkedHashSet<>();
         proxEstados.add(efinal);
-        
+
         Set<EstadoFinal> estadosAceitacao = new LinkedHashSet<>();
         estadosAceitacao.add(efinal);
 
@@ -41,27 +41,58 @@ public class CriarAutomato {
         Set<TransicaoNaoDeterministica> transicoes = new LinkedHashSet<>();
         transicoes.add(t);
 
-        AutomatoFinitoNaoDeterministico af = new AutomatoFinitoNaoDeterministico(transicoes,
-            estados, alfa, einicial,
-            estadosAceitacao);
+        AutomatoFinitoNaoDeterministico af = new AutomatoFinitoNaoDeterministico(
+                estados, alfa, transicoes, einicial,
+                estadosAceitacao);
 
         return af;
     }
 
     public AutomatoFinitoNaoDeterministico FechoDeAF(AutomatoFinitoNaoDeterministico af) {
-        Set<TransicaoNaoDeterministica> transicoes = af.getTransicoes();
-        Set<Estado> proxEstados = new LinkedHashSet<>();
-        proxEstados.add(af.getEstadoInicial());
+        Set<Transicao> transicoes = af.getTransicoes();
         for (EstadoFinal efinal : af.getEstadosAceitacao()) {
-            transicoes.add(new TransicaoNaoDeterministica(efinal, Simbolo.EPSILON, proxEstados));
+            transicoes.add(new EpsilonTransicao(efinal, af.getEstadoInicial()));
         }
         af.setTransicoes(transicoes);
         return af;
     }
 
-    public AutomatoFinito OuEntreAFs(AutomatoFinito af1, AutomatoFinito af2) {
-        //Não Implementado
-        return null;
+    public AutomatoFinito OuEntreAFs(AutomatoFinitoNaoDeterministico af1, AutomatoFinitoNaoDeterministico af2) {
+        EstadoInicial novoInicial = new EstadoInicial("S");
+        Set<Estado> proxEstados = new LinkedHashSet<>();
+        proxEstados.add(af1.getEstadoInicial());
+        proxEstados.add(af2.getEstadoInicial());
+        TransicaoNaoDeterministica tnd = new TransicaoNaoDeterministica(novoInicial,Simbolo.EPSILON,proxEstados );
+        //FALTA MUDAR ESTADOS INICIAIS ANTIGOS PARA ESTADOS NORMAIS
+        
+        //Junção de estados
+        Set<Estado> estados = new LinkedHashSet<>();
+        estados.addAll(af1.getEstados());
+        estados.addAll(af2.getEstados());
+        estados.add(novoInicial);
+        
+        //Junção de estados finais
+        Set<EstadoFinal> estadosAceitacao = new LinkedHashSet<>();
+        estadosAceitacao.addAll(af1.getEstadosAceitacao());
+        estadosAceitacao.addAll(af2.getEstadosAceitacao());
+        
+        //Junção de Alfabeto
+        Set<Simbolo> simbolos = new LinkedHashSet<>();
+        simbolos.addAll(af1.getAlfabeto().getSimbolos());
+        simbolos.addAll(af2.getAlfabeto().getSimbolos());
+        Alfabeto alfa = new Alfabeto(simbolos);
+        
+        //Junção de transições
+        Set<Transicao> transicoes = new LinkedHashSet<>();
+        transicoes.addAll(af1.getTransicoes());
+        transicoes.addAll(af2.getTransicoes());
+        transicoes.add(tnd);
+        
+        AutomatoFinito afnd = new AutomatoFinito(estados, alfa,
+            transicoes, novoInicial,
+            estadosAceitacao);
+        
+        return afnd;
     }
 
     public AutomatoFinito ConcatenaAFs(AutomatoFinito af1, AutomatoFinito af2) {
@@ -70,8 +101,15 @@ public class CriarAutomato {
     }
 
     public AutomatoFinito AFLingVazia() {
-        //Não Implementado
-        return null;
+        EstadoInicial einicial = new EstadoInicial("S");
+        Set<Estado> estados = new LinkedHashSet<>();
+        estados.add(einicial);
+        Alfabeto a = new Alfabeto(null);
+        Set<Transicao> t = new LinkedHashSet<>();
+        Set<EstadoFinal> ef = new LinkedHashSet<>();
+
+        AutomatoFinito af = new AutomatoFinito(estados, a, t, einicial, ef);
+        return af;
     }
 
     public AutomatoFinito AFPalavraVazia() {
