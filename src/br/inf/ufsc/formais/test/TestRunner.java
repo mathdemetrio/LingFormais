@@ -12,7 +12,7 @@ package br.inf.ufsc.formais.test;
 public class TestRunner {
     public static void main(String[] args) {
         GramaticaTeste gT = new GramaticaTeste();
-        AutomatoFinitoTeste dfaT = new AutomatoFinitoTeste();
+        AutomatoFinitoDeterministicoTeste dfaT = new AutomatoFinitoDeterministicoTeste();
         ExpressaoRegularTeste erT = new ExpressaoRegularTeste();
         
         gT.runTest();
